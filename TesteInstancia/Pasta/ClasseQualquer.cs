@@ -2,8 +2,8 @@
 
 public class ClasseQualquer
 {
-    public void Run()
+    public void Run(string? message = null)
     {
-        Console.WriteLine("Teste!");
+        Console.WriteLine(message ?? "Run da classe qualquer.");
     }
 }

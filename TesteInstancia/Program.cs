@@ -1,9 +1,33 @@
 ﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using TesteInstancia.Pasta;
 
 var assembly = Assembly.GetExecutingAssembly();
 var type = assembly.GetType("TesteInstancia.Pasta.ClasseQualquer");
-var instance = (ClasseQualquer)Activator.CreateInstance(type);
-instance?.Run();
+var classeQualquer = (ClasseQualquer)Activator.CreateInstance(type);
 
-Console.WriteLine("Fim");
+classeQualquer?.Run("Teste!");
+
+// Exemplo resolvendo inejeções:
+
+var serviceProvider = new ServiceCollection()
+    .AddScoped<ClasseQualquer>()
+    .BuildServiceProvider();
+
+var typeClass = Type.GetType("TesteInstancia.Pasta.ClasseQualquerComInjecao");
+
+var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+var serviceScope = serviceScopeFactory.CreateScope();
+
+/*
+ * Aqui eu obti o serviceProvider pelo serviceScope, porém só fiz dessa forma por causa
+ * do exemplo do código real que estou seguindo que busca IServiceScopeFactory por DP
+ * no construtor da classe, não tendo necessidade de criar um serviceProvider manualmente (como fiz).
+ *
+ * Nesse meu código poderia ser resumido apenas passando o serviceProvider:
+ *  Ex: (ClasseQualquerComInjecao)ActivatorUtilities.CreateInstance(serviceProvider, typeClass)
+ */
+var classeQualquerComInjecao = (ClasseQualquerComInjecao)ActivatorUtilities
+    .CreateInstance(serviceScope.ServiceProvider, typeClass);
+
+classeQualquerComInjecao.Run();
