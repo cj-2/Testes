@@ -1,4 +1,4 @@
-﻿namespace TesteInstancia.Pasta;
+﻿namespace TestesInstancia.Pasta;
 
 public class ClasseQualquer
 {

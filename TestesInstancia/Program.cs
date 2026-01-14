@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using TesteInstancia.Pasta;
+using TestesInstancia.Pasta;
 
 var assembly = Assembly.GetExecutingAssembly();
-var type = assembly.GetType("TesteInstancia.Pasta.ClasseQualquer");
+var type = assembly.GetType("TestesInstancia.Pasta.ClasseQualquer");
 var classeQualquer = (ClasseQualquer)Activator.CreateInstance(type);
 
 classeQualquer?.Run("Teste!");
@@ -14,7 +14,7 @@ var serviceProvider = new ServiceCollection()
     .AddScoped<ClasseQualquer>()
     .BuildServiceProvider();
 
-var typeClass = Type.GetType("TesteInstancia.Pasta.ClasseQualquerComInjecao");
+var typeClass = Type.GetType("TestesInstancia.Pasta.ClasseQualquerComInjecao");
 
 var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
 var serviceScope = serviceScopeFactory.CreateScope();
